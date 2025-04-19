@@ -1,0 +1,11 @@
+[package]
+name = "account-analyzer"
+version = "0.1.0"
+edition = "2024"
+authors = ["Chetan Khilosiya <chetan.khilosiya@gmail.com>"]
+description = "Application to analyze the bank statements and get data based on queries"
+license = "MIT"
+keywords = ["bank", "account", "analyze", "statement"]
+
+[dependencies]
+calamine = "0.25"
