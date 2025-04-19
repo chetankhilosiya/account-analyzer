@@ -8,4 +8,6 @@ license = "MIT"
 keywords = ["bank", "account", "analyze", "statement"]
 
 [dependencies]
-calamine = "0.25"
+anyhow = "1.0.98"
+calamine = { version = "0.25", features = ["chrono"]}
+chrono = { version = "0.4.40", features = ["std", "serde"]}
