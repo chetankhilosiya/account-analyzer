@@ -1,4 +1,6 @@
-use calamine::{Data, DataType};
+use std::any::Any;
+
+use calamine::Data;
 
 pub mod icici;
 mod sbi;
@@ -6,17 +8,32 @@ mod sbi;
 pub struct DataConverter {}
 
 impl DataConverter {
-    fn get_int(data: &Data) -> i64 {
-        if data.is_int() {
-            return data.get_int().unwrap_or_default();
-        }
+    fn clean_string(value: &str) -> String {
+        value.chars().filter(|c| !c.eq(&'\0')).collect()
+    }
 
-        if data.is_string() {
-            // TODO: implement logic to convert string into integer
-            return 1;
+    fn get_int(data: &Data) -> Option<i64> {
+        match data {
+            Data::Int(value) => {
+                // println!("Got integer value: {}", value);
+                return Some(*value);
+            }
+            Data::String(value) => {
+                // println!("Got string value: {:?}", value);
+                let copy = Self::clean_string(value);
+                match copy.parse() {
+                    Ok(val) => return Some(val),
+                    Err(msg) => {
+                        println!("Error: {}", msg);
+                        return None;
+                    }
+                }
+            }
+            _ => {
+                println!("Got non integer value: {:?}", data.type_id());
+                return None;
+            }
         }
-
-        return 1;
     }
 
     // TODO: Add other methods to convert string into different data types
