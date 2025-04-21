@@ -7,7 +7,7 @@ pub struct DB {
     records: Vec<Entry>,
 }
 
-struct Entry {
+pub struct Entry {
     transaction_date: DateTime<Local>,
     value_date: DateTime<Local>,
     details: String,
@@ -16,12 +16,12 @@ struct Entry {
     balance: f64,
 }
 
-struct Amount {
+pub struct Amount {
     value: f64,
     amount_type: AmountType,
 }
 
-enum AmountType {
+pub enum AmountType {
     Withdrawal,
     Deposit,
 }
