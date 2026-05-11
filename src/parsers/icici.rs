@@ -1,7 +1,7 @@
 use anyhow::Result;
-use std::{path::Path, str::FromStr};
+use std::path::Path;
 
-use calamine::{Data, DataType, Range, Reader, Xls, open_workbook};
+use calamine::{Data, Range, Reader, Xls, open_workbook};
 
 use crate::{db, parsers::DataConverter};
 
@@ -15,7 +15,7 @@ impl ICICIParser {
     /// The complete logic to parse xls file and create database of transactions.
     pub fn parse_file(&self, file: &Path) -> Result<db::DB> {
         let mut workbook: Xls<_> = open_workbook(file).expect("Can't open file");
-        let mut db = db::DB::new(crate::Bank::ICICI);
+        let db = db::DB::new(crate::Bank::ICICI);
         let sheets = workbook.worksheets();
         assert!(sheets.len() == 1, "Sheets are empty");
         let sheet = sheets.first().expect("First sheet should be present");
@@ -31,34 +31,34 @@ impl ICICIParser {
         while row <= table_range.1 {
             // let row_data = db::Entry::new();
             range.get((row, 1)).inspect(|&date| {
-                println!("value date: {:?}", DataConverter::clean_data_string(date))
+                // println!("value date: {:?}", DataConverter::clean_data_string(date))
             });
 
             range.get((row, 2)).inspect(|&date| {
-                println!(
-                    "transaction date: {:?}",
-                    DataConverter::clean_data_string(date)
-                )
+                // println!(
+                //     "transaction date: {:?}",
+                //     DataConverter::clean_data_string(date)
+                // )
             });
 
             range.get((row, 4)).inspect(|&detail| {
-                println!(
-                    "transaction details: {:?}",
-                    DataConverter::clean_data_string(detail)
-                )
+                // println!(
+                // "transaction details: {:?}",
+                // DataConverter::clean_data_string(detail)
+                // )
             });
 
             range.get((row, 5)).inspect(|&withdrawal| {
-                println!(
-                    "withdrawal: {:?}",
-                    DataConverter::clean_data_string(withdrawal)
-                )
+                // println!(
+                //     "withdrawal: {:?}",
+                //     DataConverter::clean_data_string(withdrawal)
+                // )
             });
             range.get((row, 6)).inspect(|&deposite| {
-                println!("deposite: {:?}", DataConverter::clean_data_string(deposite))
+                // println!("deposite: {:?}", DataConverter::clean_data_string(deposite))
             });
             range.get((row, 7)).inspect(|&balance| {
-                println!("balance: {:?}", DataConverter::clean_data_string(balance))
+                // println!("balance: {:?}", DataConverter::clean_data_string(balance))
             });
 
             row += 1;

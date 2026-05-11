@@ -1,7 +1,4 @@
-use std::any::Any;
-
-use calamine::{Data, DataType, ExcelDateTime};
-use chrono::{Date, DateTime, Datelike, Local, Timelike, Utc};
+use calamine::{Data, DataType};
 
 pub mod icici;
 mod sbi;
@@ -29,7 +26,7 @@ impl DataConverter {
         match copy.parse() {
             Ok(val) => return Some(val),
             Err(msg) => {
-                println!("Error: {}", msg);
+                println!("Error: data: {}, msg: {}", copy, msg);
                 return None;
             }
         }
