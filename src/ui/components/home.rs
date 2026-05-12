@@ -1,6 +1,12 @@
 use dioxus::prelude::*;
 
+use crate::db::DB;
+use crate::ui::components::Table;
+
 #[component]
 pub fn Home() -> Element {
-    rsx! { "Home! Testing hot reload" }
+    rsx! {
+        div { "Home! Testing hot reload" }
+        div { Table {} }
+    }
 }

@@ -1,9 +1,12 @@
 use anyhow::Result;
-use std::path::Path;
+use std::{f64, path::Path};
 
 use calamine::{Data, Range, Reader, Xls, open_workbook};
 
-use crate::{db, parsers::DataConverter};
+use crate::{
+    db::{self, Amount},
+    parsers::DataConverter,
+};
 
 pub struct ICICIParser {}
 
@@ -15,7 +18,7 @@ impl ICICIParser {
     /// The complete logic to parse xls file and create database of transactions.
     pub fn parse_file(&self, file: &Path) -> Result<db::DB> {
         let mut workbook: Xls<_> = open_workbook(file).expect("Can't open file");
-        let db = db::DB::new(crate::Bank::ICICI);
+        let mut db = db::DB::new(crate::Bank::ICICI);
         let sheets = workbook.worksheets();
         assert!(sheets.len() == 1, "Sheets are empty");
         let sheet = sheets.first().expect("First sheet should be present");
@@ -29,9 +32,10 @@ impl ICICIParser {
 
         let mut row = table_range.0;
         while row <= table_range.1 {
-            // let row_data = db::Entry::new();
+            let mut row_data = db::Entry::default();
             range.get((row, 1)).inspect(|&date| {
-                // println!("value date: {:?}", DataConverter::clean_data_string(date))
+                let cleaned = DataConverter::clean_data_string(date);
+                row_data.set_value_date(&cleaned, "%d/%m/%Y");
             });
 
             range.get((row, 2)).inspect(|&date| {
@@ -39,29 +43,50 @@ impl ICICIParser {
                 //     "transaction date: {:?}",
                 //     DataConverter::clean_data_string(date)
                 // )
+                let cleaned = DataConverter::clean_data_string(date);
+                row_data.set_transaction_date(&cleaned, "%d/%m/%Y");
             });
 
-            range.get((row, 4)).inspect(|&detail| {
+            // 3rd column is cheque number which is not required
+
+            range.get((row, 4)).inspect(|&details| {
                 // println!(
                 // "transaction details: {:?}",
                 // DataConverter::clean_data_string(detail)
                 // )
+                let cleaned = DataConverter::clean_data_string(details);
+                row_data.description = cleaned;
             });
 
-            range.get((row, 5)).inspect(|&withdrawal| {
+            range.get((row, 5)).inspect(|&withdrawal_amount| {
                 // println!(
                 //     "withdrawal: {:?}",
                 //     DataConverter::clean_data_string(withdrawal)
                 // )
+                let cleaned = DataConverter::clean_data_string(withdrawal_amount);
+                let amount_value = cleaned.parse::<f64>().unwrap_or(0.0);
+                if amount_value != 0.0 {
+                    row_data.amount = Amount::new_withdrawal(amount_value);
+                }
             });
-            range.get((row, 6)).inspect(|&deposite| {
+
+            range.get((row, 6)).inspect(|&deposite_amount| {
                 // println!("deposite: {:?}", DataConverter::clean_data_string(deposite))
+                let cleaned = DataConverter::clean_data_string(deposite_amount);
+                let amount_value = cleaned.parse::<f64>().unwrap_or(0.0);
+                if amount_value != 0.0 {
+                    row_data.amount = Amount::new_deposit(amount_value);
+                }
             });
+
             range.get((row, 7)).inspect(|&balance| {
                 // println!("balance: {:?}", DataConverter::clean_data_string(balance))
+                let cleaned = DataConverter::clean_data_string(balance);
+                row_data.balance = cleaned.parse::<f64>().unwrap_or(0.0);
             });
 
             row += 1;
+            db.add_record(row_data);
         }
 
         return Result::Ok(db);
@@ -115,3 +140,5 @@ impl ICICIParser {
         return (start_row, end_row);
     }
 }
+
+pub struct EntryBuilder {}

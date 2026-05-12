@@ -26,7 +26,7 @@ impl DataConverter {
         match copy.parse() {
             Ok(val) => return Some(val),
             Err(msg) => {
-                println!("Error: data: {}, msg: {}", copy, msg);
+                // println!("Error: data: {}, msg: {}", copy, msg);
                 return None;
             }
         }

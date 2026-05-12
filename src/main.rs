@@ -6,16 +6,18 @@ use std::path::Path;
 
 use anyhow::Result;
 use db::DB;
+use ui::components::Home;
 
 fn main() {
-    let ui_result = ui::load_ui();
-    if ui_result.is_err() {
-        println!("Unable to load UI");
+    let database;
+    match load_file() {
+        Ok(db) => database = db,
+        Err(_) => {
+            println!("Not able to create DB");
+            return;
+        }
     }
-    let result = load_file();
-    if result.is_err() {
-        println!("Not able to crate DB");
-    }
+    load_ui(database);
 }
 
 fn load_file() -> Result<DB> {
@@ -29,6 +31,14 @@ fn load_file() -> Result<DB> {
     parser.parse_file(file)
 }
 
+pub fn load_ui(database: DB) {
+    // dioxus::LaunchBuilder::new()
+    //     .with_context(database)
+    //     .launch(Home);
+    dioxus::launch(Home);
+}
+
+#[derive(Clone, PartialEq, Debug)]
 enum Bank {
     ICICI,
     SBI,

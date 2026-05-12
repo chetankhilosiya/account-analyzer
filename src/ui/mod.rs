@@ -1,5 +1,2 @@
-mod app;
-mod components;
+pub mod components;
 mod navbar;
-
-pub use app::load_ui;
