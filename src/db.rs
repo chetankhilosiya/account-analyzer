@@ -1,9 +1,14 @@
 use chrono::NaiveDate;
 
-use crate::Bank;
+#[derive(Clone, PartialEq, Debug)]
+pub enum Bank {
+    ICICI,
+    SBI,
+    NONE,
+}
 
 #[derive(Clone, PartialEq, Debug)]
-pub struct DB {
+pub struct Database {
     bank: Bank,
     records: Vec<Entry>,
 }
@@ -102,9 +107,9 @@ impl Entry {
     }
 }
 
-impl DB {
+impl Database {
     pub fn new(bank: Bank) -> Self {
-        DB {
+        Database {
             bank,
             records: Vec::new(),
         }
@@ -112,5 +117,30 @@ impl DB {
 
     pub fn add_record(&mut self, entry: Entry) {
         self.records.push(entry);
+    }
+
+    pub fn set_bank(&mut self, bank: Bank) {
+        self.bank = bank;
+    }
+
+    pub fn bank(self) -> Bank {
+        self.bank
+    }
+
+    pub fn set_records(&mut self, records: Vec<Entry>) {
+        self.records = records;
+    }
+
+    pub fn records(self) -> Vec<Entry> {
+        self.records
+    }
+}
+
+impl Default for Database {
+    fn default() -> Self {
+        Database {
+            bank: Bank::NONE,
+            records: Vec::new(),
+        }
     }
 }

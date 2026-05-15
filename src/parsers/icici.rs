@@ -4,7 +4,7 @@ use std::{f64, path::Path};
 use calamine::{Data, Range, Reader, Xls, open_workbook};
 
 use crate::{
-    db::{self, Amount},
+    db::{self, Amount, Database},
     parsers::DataConverter,
 };
 
@@ -16,9 +16,9 @@ impl ICICIParser {
     }
 
     /// The complete logic to parse xls file and create database of transactions.
-    pub fn parse_file(&self, file: &Path) -> Result<db::DB> {
+    pub fn parse_file(&self, file: &Path) -> Result<Database> {
         let mut workbook: Xls<_> = open_workbook(file).expect("Can't open file");
-        let mut db = db::DB::new(crate::Bank::ICICI);
+        let mut db = Database::new(crate::Bank::ICICI);
         let sheets = workbook.worksheets();
         assert!(sheets.len() == 1, "Sheets are empty");
         let sheet = sheets.first().expect("First sheet should be present");
