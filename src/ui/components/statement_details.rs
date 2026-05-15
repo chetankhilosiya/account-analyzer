@@ -1,9 +1,7 @@
 use dioxus::prelude::*;
 
-use crate::db::DB;
-
 #[component]
-pub fn Table() -> Element {
+pub fn StatementDetails() -> Element {
     // let db = use_context::<Signal<DB>>();
     // println!("{:?}", db);
     rsx! {

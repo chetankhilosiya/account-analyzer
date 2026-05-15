@@ -1,5 +1,5 @@
-mod db_table;
-mod home;
+mod app;
+mod statement_details;
 
-pub use db_table::Table;
-pub use home::Home;
+pub use app::App;
+pub use statement_details::StatementDetails;

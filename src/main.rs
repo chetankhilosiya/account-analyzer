@@ -1,12 +1,13 @@
+mod components;
 mod db;
 mod parsers;
 mod ui;
 
-use std::path::Path;
-
 use anyhow::Result;
 use db::DB;
-use ui::components::Home;
+use dioxus::prelude::*;
+use std::path::Path;
+use ui::components::App;
 
 fn main() {
     let database;
@@ -35,7 +36,8 @@ pub fn load_ui(database: DB) {
     // dioxus::LaunchBuilder::new()
     //     .with_context(database)
     //     .launch(Home);
-    dioxus::launch(Home);
+    asset!("/assets/dx-components-theme.css");
+    dioxus::launch(App);
 }
 
 #[derive(Clone, PartialEq, Debug)]
