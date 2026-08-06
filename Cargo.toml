@@ -6,13 +6,15 @@ authors = ["Chetan Khilosiya <chetan.khilosiya@gmail.com>"]
 description = "Application to analyze the bank statements and get data based on queries"
 license = "MIT"
 keywords = ["bank", "account", "analyze", "statement"]
+rust-version = "1.95.0"
 
 [dependencies]
-dioxus = { version = "0.7.9", features = ["router"] }
+dioxus = { version = "0.7.10", features = ["router"] }
 calamine = { version = "0.35.0", features = ["chrono"]}
-anyhow = "1.0.102"
-chrono = { version = "0.4.44", features = ["std", "serde"]}
+anyhow = "1.0.104"
+chrono = { version = "0.4.45", features = ["std", "serde"]}
 dioxus-primitives = { git = "https://github.com/DioxusLabs/components", version = "0.0.1", default-features = false }
+dioxus-tabular = "0.3.0"
 
 [features]
 default = ["desktop"]

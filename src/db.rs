@@ -1,6 +1,6 @@
 use chrono::NaiveDate;
 
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Bank {
     ICICI,
     SBI,
@@ -59,6 +59,10 @@ impl Amount {
             value,
             amount_type: AmountType::Deposit,
         }
+    }
+
+    pub fn value(&self) -> f64 {
+        self.value
     }
 }
 
@@ -119,20 +123,12 @@ impl Database {
         self.records.push(entry);
     }
 
-    pub fn set_bank(&mut self, bank: Bank) {
-        self.bank = bank;
-    }
-
-    pub fn bank(self) -> Bank {
+    pub fn bank(&self) -> Bank {
         self.bank
     }
 
-    pub fn set_records(&mut self, records: Vec<Entry>) {
-        self.records = records;
-    }
-
-    pub fn records(self) -> Vec<Entry> {
-        self.records
+    pub fn records(&self) -> &Vec<Entry> {
+        &self.records
     }
 }
 

@@ -7,7 +7,9 @@ use anyhow::Result;
 use db::{Bank, Database};
 use dioxus::prelude::*;
 use std::path::Path;
-use ui::components::StatementDetails;
+use ui::components::StatementPage;
+
+static DB: GlobalSignal<Database> = Signal::global(|| Database::new(Bank::ICICI));
 
 fn main() {
     asset!("/assets/dx-components-theme.css");
@@ -16,11 +18,12 @@ fn main() {
 
 #[component]
 pub fn App() -> Element {
-    static DB: GlobalSignal<Database> = Signal::global(|| Database::new(Bank::ICICI));
     match load_file() {
         Ok(db) => {
-            DB.write().set_bank(db.clone().bank());
-            DB.write().set_records(db.clone().records());
+            DB.set(db);
+            // DB.with_mut(|d| *d = db);
+            // DB.write().set_bank(db.bank());
+            // DB.write().set_records(db.records());
         }
         Err(_) => {
             println!("Not able to create DB");
@@ -28,7 +31,7 @@ pub fn App() -> Element {
     }
     rsx! {
         div { "App!" }
-        div { StatementDetails {} }
+        div { StatementPage {} }
     }
 }
 
