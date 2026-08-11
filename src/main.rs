@@ -33,7 +33,7 @@ pub fn App() -> Element {
 }
 
 fn load_file() -> Result<Database> {
-    let file = Path::new("C:\\Users\\cheta\\Downloads\\icici_statement_1.xls");
+    let file = Path::new("./data/icici_statement_1.xls");
     if !file.exists() {
         println!("File does not exist");
     }
