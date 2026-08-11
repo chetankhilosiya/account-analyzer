@@ -20,10 +20,7 @@ fn main() {
 pub fn App() -> Element {
     match load_file() {
         Ok(db) => {
-            DB.set(db);
-            // DB.with_mut(|d| *d = db);
-            // DB.write().set_bank(db.bank());
-            // DB.write().set_records(db.records());
+            DB.with_mut(|d| *d = db);
         }
         Err(_) => {
             println!("Not able to create DB");
