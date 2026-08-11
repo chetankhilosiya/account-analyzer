@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_tabular::{ColumnContext, Columns, GetRowData, Row, TableColumn};
 
-use crate::{DB, db::Entry};
+use crate::db::Entry;
 
 #[component]
 pub fn StatementPage() -> Element {

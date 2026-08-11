@@ -25,7 +25,7 @@ impl DataConverter {
         let copy = Self::clean_data_string(data);
         match copy.parse() {
             Ok(val) => return Some(val),
-            Err(msg) => {
+            Err(_msg) => {
                 // println!("Error: data: {}, msg: {}", copy, msg);
                 return None;
             }
@@ -33,7 +33,7 @@ impl DataConverter {
     }
 
     fn get_date(data: &Data) {
-        let copy = Self::clean_data_string(data);
+        let _copy = Self::clean_data_string(data);
         // let date = DateTime::
         // TODO: write logic to parse date string.
     }
