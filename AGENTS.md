@@ -31,3 +31,23 @@ The application analyzes bank statements (likely Excel files) and allows users t
 3. Provide query-based data retrieval
 4. Display
 
+## Bank Statement Format Examples
+
+### ICICI Bank Statement Format
+The application supports ICICI bank statements with the following column structure:
+
+| Column Name | Description |
+|-------------|-------------|
+| S No. | Serial number of the transaction |
+| Value Date | Date when the transaction is posted to the account |
+| Transaction Date | Date when the transaction occurred |
+
+| Transaction Remarks | Description or remarks about the transaction |
+| Withdrawal Amount (INR) | Amount debited from the account in Indian Rupees |
+| Deposit Amount (INR) | Amount credited to the account in Indian Rupees |
+| Balance (INR) | Account balance after the transaction in Indian Rupees |
+
+Example data row:
+| 1	| 05/04/2025 | 05/04/2025 | ACH/RACPC SHANKARSHETH R/ICIC0000000004713089/NODN | 24973.00 | 0.0 | 35537.61
+| 2 | 05/04/2025 | 05/04/2025 | ACH/RACPC - II WAKDEWADI/ICIC0000000007630007/NODN | 14934.00 | 0.0 | 20603.61
+
