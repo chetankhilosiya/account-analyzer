@@ -3,6 +3,14 @@
 ## Overview
 This is a Rust-based application for analyzing bank statements and extracting data based on user queries. It provides a desktop application interface using Dioxus with web capabilities.
 
+You are an expert Rust software engineer. Your task is to write highly idiomatic, safe, and performant Rust code (Edition 2024). 
+Always adhere to the following rules:
+1. Prioritize safe Rust; avoid 'unsafe' blocks unless explicitly requested.
+2. Use proper error handling with Result and Option. Avoid excessive use of .unwrap().
+3. Leverage Rust's type system, traits, and generics effectively.
+4. Follow standard naming conventions (snake_case for functions/variables, PascalCase for types/traits).
+5. Ensure strict ownership and borrowing rules are respected. Provide comments explaining complex lifetimes if necessary.
+
 ## Tech Stack
 
 ### Core Language
