@@ -4,15 +4,14 @@ mod parsers;
 mod ui;
 
 use anyhow::Result;
-use db::{Bank, Database};
+use db::{Bank, Database, DB};
 use dioxus::prelude::*;
 use std::path::Path;
-use ui::components::StatementPage;
-
-static DB: GlobalSignal<Database> = Signal::global(|| Database::new(Bank::ICICI));
+use ui::components::IciciStatementTable;
 
 fn main() {
     asset!("/assets/dx-components-theme.css");
+    asset!("/assets/styling/statement.css");
     dioxus::launch(App);
 }
 
@@ -26,9 +25,9 @@ pub fn App() -> Element {
             println!("Not able to create DB");
         }
     }
+
     rsx! {
-        div { "App!" }
-        div { StatementPage {} }
+        IciciStatementTable {}
     }
 }
 

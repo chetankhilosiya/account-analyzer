@@ -1,3 +1,4 @@
+use dioxus::prelude::*;
 use chrono::NaiveDate;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -6,6 +7,9 @@ pub enum Bank {
     SBI,
     NONE,
 }
+
+/// Global database signal accessible from any component.
+pub static DB: GlobalSignal<Database> = Signal::global(|| Database::new(Bank::ICICI));
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Database {
@@ -63,6 +67,16 @@ impl Amount {
 
     pub fn value(&self) -> f64 {
         self.value
+    }
+
+    /// Returns true if this amount is a withdrawal.
+    pub fn is_withdrawal(&self) -> bool {
+        matches!(self.amount_type, AmountType::Withdrawal)
+    }
+
+    /// Returns true if this amount is a deposit.
+    pub fn is_deposit(&self) -> bool {
+        matches!(self.amount_type, AmountType::Deposit)
     }
 }
 
