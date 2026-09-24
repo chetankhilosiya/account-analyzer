@@ -39,6 +39,32 @@ The application analyzes bank statements (likely Excel files) and allows users t
 3. Provide query-based data retrieval
 4. Display
 
+## Styling Guidelines
+
+### Use Tailwind CSS First
+Always prefer using **Tailwind CSS utility classes** for styling components over writing custom CSS. The project includes `tailwind.css` with the Tailwind import already configured (v4.1.5).
+
+1. **Prefer inline Tailwind classes in Dioxus rsx!** - Apply Tailwind utility classes directly to elements using the `class` attribute:
+   ```rust
+   div { class: "flex flex-col items-center p-4 bg-gray-900 rounded-lg", }
+   ```
+
+2. **Use only when necessary** - Write custom CSS in dedicated `.css` files (e.g., `assets/styling/`) only when:
+   - Tailwind utility classes cannot achieve the desired layout or effect
+   - You need complex pseudo-element styling (`::before`, `::after`)
+   - You require advanced animations or transitions not easily expressed with Tailwind utilities
+   - Building reusable component styles that are used across multiple components
+
+3. **Custom CSS best practices**:
+   - Keep custom CSS scoped to specific class names (avoid global element selectors)
+   - Follow the existing dark theme color palette defined in `assets/dx-components-theme.css`
+   - Use CSS variables where possible for theming consistency
+   - Include responsive breakpoints using `@media` queries
+
+4. **Asset loading** - Custom CSS files must be loaded via `asset!()` macro in `main.rs` and referenced with `document::Link` if needed per-component, though global stylesheets are preferred.
+
+5. **Current Tailwind setup note**: The project has Tailwind CSS v4 installed but the generated utility classes are minimal (only a few utilities like `.table`, `.visible`, etc.). When Tailwind is fully configured with all utilities available, prefer using those over custom CSS. For now, continue writing scoped custom CSS for complex layouts and component styles.
+
 ## Bank Statement Format Examples
 
 ### ICICI Bank Statement Format
